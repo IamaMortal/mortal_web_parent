@@ -9,20 +9,27 @@ import store from './vuex/store'
 import Vuex from 'vuex'
 //import NProgress from 'nprogress'
 //import 'nprogress/nprogress.css'
+
+// 引用axios，并设置基础URL为后端服务api地址
+var axios = require('axios');
+axios.defaults.baseURL = 'http://127.0.0.1:9527/services';  //对应后端网关统一地址
+// 将API方法绑定到全局  /plat/login
+Vue.prototype.$http = axios;
+Vue.config.productionTip = false;
 import routes from './routes'
 import Mock from './mock'
-Mock.bootstrap();
+//Mock.bootstrap();
 import 'font-awesome/css/font-awesome.min.css'
 
-Vue.use(ElementUI)
-Vue.use(VueRouter)
-Vue.use(Vuex)
+Vue.use(ElementUI);
+Vue.use(VueRouter);
+Vue.use(Vuex);
 
 //NProgress.configure({ showSpinner: false });
 
 const router = new VueRouter({
   routes
-})
+});
 
 router.beforeEach((to, from, next) => {
   //NProgress.start();
@@ -35,7 +42,7 @@ router.beforeEach((to, from, next) => {
   } else {
     next()
   }
-})
+});
 
 //router.afterEach(transition => {
 //NProgress.done();
@@ -48,5 +55,5 @@ new Vue({
   store,
   //components: { App }
   render: h => h(App)
-}).$mount('#app')
+}).$mount('#app');
 

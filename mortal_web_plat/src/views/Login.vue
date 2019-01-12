@@ -51,20 +51,24 @@
             this.logining = true;
             //NProgress.start();
             var loginParams = { username: this.ruleForm2.account, password: this.ruleForm2.checkPass };
-            requestLogin(loginParams).then(data => {
-              this.logining = false;
-              //NProgress.done();
-              let { msg, code, user } = data;
-              if (code !== 200) {
-                this.$message({
-                  message: msg,
-                  type: 'error'
+            //
+            this.$http.post("/plat/login",loginParams)
+                .then(data => {
+                    this.logining = false;
+                    console.log(data);
+                    let { success, message,objectData } = data.data;
+                    if (!success) {
+                        this.$message({
+                            message: message,
+                            type: 'error'
+                        });
+                    } else {
+                        objectData= {"name":"zs","age":18};
+                        sessionStorage.setItem('user', JSON.stringify(objectData));
+                        ///main
+                        this.$router.push({ path: '/main' });
+                    }
                 });
-              } else {
-                sessionStorage.setItem('user', JSON.stringify(user));
-                this.$router.push({ path: '/table' });
-              }
-            });
           } else {
             console.log('error submit!!');
             return false;
